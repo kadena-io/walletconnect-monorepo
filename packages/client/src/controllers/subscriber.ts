@@ -332,7 +332,15 @@ export class Subscriber extends ISubscriber {
         this.logger.error(error.message);
         throw new Error(error.message);
       }
-      this.cached = persisted;
+      let filtered: SubscriberTypes.Active[] = [];
+      const topics = new Set();
+      persisted.forEach(v => {
+        if (!topics.has(v.topic)) {
+          topics.add(v.topic);
+          filtered.push(v);
+        }
+      });
+      this.cached = filtered;
       this.logger.debug(
         `Successfully Restored subscriptions for ${formatMessageContext(this.context)}`,
       );

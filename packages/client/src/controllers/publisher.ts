@@ -114,9 +114,7 @@ export class Publisher extends IPublisher {
         prompt,
       },
     };
-    if (typeof request.params?.prompt === "undefined") {
-      delete request.params?.prompt;
-    }
+    delete request.params?.prompt;
     this.logger.debug(`Outgoing Relay Payload`);
     this.logger.trace({ type: "payload", direction: "outgoing", request });
     return this.relayer.provider.request(request);
